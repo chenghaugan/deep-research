@@ -1,0 +1,30 @@
+services:
+  deep-research:
+    image: xiangfa/deep-research
+    container_name: deep-research
+    env_file:
+      - .env
+    ports:
+      - 3020:3000
+    networks:
+      - research-net
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    dns:
+      - 127.0.0.11
+
+  proxy:
+    build: ./proxy
+    container_name: deep-research-proxy
+    env_file:
+      - .env
+    ports:
+      - 3021:3021
+    networks:
+      - research-net
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+networks:
+  research-net:
+    driver: bridge
